@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Quizinator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/home.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+</head>
+
+<body class="container p-2">
+    <h1 class="display-1 mb-5 text-center">Quizinator</h1>
+    <main class="main">
+        <div class="login">
+            <h2>Login</h2>
+            <form id="login_form">
+                <input type="text" id="email" name="email" placeholder="Username/Email"><br />
+                <input type="password" id="password" name="password" placeholder="Password" autocomplete="new-password"><br />
+                <div id='button'>
+                    <input type="submit" value="Log In" id='login_button'>
+                </div>
+            </form>
+            <div id='login_msg'>
+
+            </div>
+        </div>
+        <div class='signup'>
+            <h2>SignUp</h2>
+            <p>*All fields are required</p>
+            <form id="signup_form">
+                <input type="text" name="name" id="name"placeholder="Name" required="required"> <br>
+                <input type="email" id="signup_email" name="email" placeholder="Email" required="required"> <br><label
+                    class="text-danger" id="signup_email_check_result"></label> <br>
+                <input type="text" id="username" name="username" placeholder="Username" required="required"><br><label
+                    class="text-danger" id="username_check_result"></label> <br>
+                <input type="password" name="password" id="p" placeholder="Password" required="required" onkeyup="pass_check()"
+                    autocomplete="new-password">
+                <br><label id="password_length_check_result"></label> <br><input type="password" name="password2" id="p2"
+                    placeholder="Confirm Passowrd" required="required" onkeyup="pass_check()" autocomplete="new-password"><br><label
+                    id="password_match_check_result"></label> <br>
+
+                Gender: <input type="radio" name="gender" value="m" required="required">Male <input type="radio" name="gender"
+                    value="f" required="required">Female <br>
+                <input type="text" name="mobile" id="username" placeholder="Mobile" required="required"> <br>
+                <input type="text" name="enroll" id="enroll " placeholder="Enroll No." required="required"> <br>
+                <input type="text" name="branch" id="branch" placeholder="Branch" required="required"> <br>
+                <input type="text" name="year" id="year" placeholder="Year" required="required"> <br>
+                <input type="submit" value="Submit" id="submit">
+            </form>
+    </main>
+
+    <script>
+        var password_length_check_result_frontend = 0;
+        var password_match_check_result_frontend = 0;
+
+        function pass_check() {
+            var p = document.getElementById('p').value;
+            var p2 = document.getElementById('p2').value;
+            if (p2) {
+                if (p != p2) {
+                    var msg = "Passwords dont match".fontcolor("red");
+                    document.getElementById('password_match_check_result').innerHTML = msg;
+                    password_match_check_result_frontend = 0;
+                } else {
+                    var msg = "Passwords match".fontcolor("green");
+                    document.getElementById('password_match_check_result').innerHTML = msg;
+                    password_match_check_result_frontend = 1;
+                }
+            }
+        }
+        $("#p").keyup(function (event) {
+            event.preventDefault();
+            if ($("#p").val().length < 8) {
+                $("#password_length_check_result").html(
+                    "<div class='text-danger'>Password Length Too Small</div>");
+                password_length_check_result_frontend = 0;
+            } else {
+                $("#password_length_check_result").html("<div class='text-success'>Password Length Good</div>");
+                password_length_check_result_frontend = 1;
+            }
+        });
+        $('#login_msg').empty();
+        $('#login_form').on('submit', function (e) {
+            e.preventDefault();
+            var email_input = $("#email").val();
+            var password_input = $("#password").val();
+
+            $.ajax({
+                type: "post",
+                url: "/login",
+                data: {
+                    email: email_input,
+                    password: password_input
+                },
+                success: function (response) {
+
+                    if (response == "true") {
+                        $('#login_msg').empty();
+                        window.location.replace('/welcome');
+                    } else if (response == "false")
+                        $('#login_msg').html("INVALID USERNAME OR PASSWORD");
+
+                }
+            });
+        });
+        $("#signup_form").on('submit', function (e) {
+            e.preventDefault();
+            var name_input = $("#name").val();
+            var email_input = $("#signup_email").val();
+            var username_input = $("#username").val();
+            var p_input = $("#p").val();
+            var p2_input = $("#p2").val();
+            var gender_input = $("input[name='gender']:checked").val();
+            var mobile_input = $("#mobile").val();
+            var enroll_input = $("#enroll").val();
+            var branch_input = $("#branch").val();
+            var year_input = $("#year").val();
+    
+            if (password_length_check_result_frontend == 1 && password_match_check_result_frontend == 1) {
+                $.ajax({
+                    type: "post",
+                    url: "/signup",
+                    data: {
+                        name: name_input,
+                        email: email_input,
+                        username: username_input,
+                        p: p_input,
+                        p2: p2_input,
+                        gender: gender_input,
+                        mobile: mobile_input,
+                        enroll: enroll_input,
+                        branch: branch_input,
+                        year: year_input,
+                    },
+                    success: function (response) {
+                        if (response['validate'] == "true") {
+                            $("#password_length_check_result").empty();
+                            $("#password_match_check_result").empty();
+                            $("#signup_email_check_result").empty();
+                            $("#username_check_result").empty();
+                            alert("Signup Successful");
+                        } else {
+                            $("#password_length_check_result").html(respnsoe[
+                                "password_length_check_result"]);
+                            $("#password_match_check_result").html(response[
+                                "password_match_check_result"]);
+                            $("#signup_email_check_result").html(response[
+                                "signup_email_check_result"]);
+                            $("#username_check_result").html(response["username_check_result"]);
+
+                        }
+                    }
+                });
+            }
+
+
+        });
+        /*
+            $("#signup_email").keyup(function(event) {
+                event.preventDefault();
+                var email_input = $("#signup_email").val();
+
+                $.ajax({
+                    type: "post",
+                    url: "/php_backend_assignment/php/check_email_signup.php",
+                    data: {
+                        email: email_input
+                    },
+                    success: function(response) {
+
+                        if (response == "false") {
+                            $("#signup_email_check_result").html("Email Already Exists");
+                        } else if (response == "true")
+                            $("#signup_email_check_result").empty();
+                    }
+                });
+
+            });
+            $("#username").keyup(function(event) {
+                event.preventDefault();
+                var username_input = $("#username").val();
+
+                $.ajax({
+                    type: "post",
+                    url: "/php_backend_assignment/php/check_username_signup.php",
+                    data: {
+                        username: username_input
+                    },
+                    success: function(response) {
+
+                        if (response == "false") {
+                            $("#username_check_result").html("Username Already Exists");
+                        } else if (response == "true")
+                            $("#username_check_result").empty();
+                    }
+                });
+
+            });
+         */
+    </script>
+</body>
+
+</html>
