@@ -32,7 +32,7 @@
             <h2>SignUp</h2>
             <p>*All fields are required</p>
             <form id="signup_form">
-                <input type="text" name="name" id="name"placeholder="Name" required="required"> <br>
+                <input type="text" name="name" id="name" placeholder="Name" required="required"> <br>
                 <input type="email" id="signup_email" name="email" placeholder="Email" required="required"> <br><label
                     class="text-danger" id="signup_email_check_result"></label> <br>
                 <input type="text" id="username" name="username" placeholder="Username" required="required"><br><label
@@ -45,8 +45,8 @@
 
                 Gender: <input type="radio" name="gender" value="m" required="required">Male <input type="radio" name="gender"
                     value="f" required="required">Female <br>
-                <input type="text" name="mobile" id="username" placeholder="Mobile" required="required"> <br>
-                <input type="text" name="enroll" id="enroll " placeholder="Enroll No." required="required"> <br>
+                <input type="text" name="mobile" id="mobile" placeholder="Mobile" required="required"> <br>
+                <input type="text" name="enroll" id="enroll" placeholder="Enroll No." required="required"> <br>
                 <input type="text" name="branch" id="branch" placeholder="Branch" required="required"> <br>
                 <input type="text" name="year" id="year" placeholder="Year" required="required"> <br>
                 <input type="submit" value="Submit" id="submit">
@@ -119,7 +119,7 @@
             var enroll_input = $("#enroll").val();
             var branch_input = $("#branch").val();
             var year_input = $("#year").val();
-    
+          
             if (password_length_check_result_frontend == 1 && password_match_check_result_frontend == 1) {
                 $.ajax({
                     type: "post",
@@ -136,7 +136,9 @@
                         branch: branch_input,
                         year: year_input,
                     },
-                    success: function (response) {
+                    success: function (r) {
+                        response=JSON.parse(r);
+                        alert(response['validate']);
                         if (response['validate'] == "true") {
                             $("#password_length_check_result").empty();
                             $("#password_match_check_result").empty();
@@ -159,48 +161,49 @@
 
 
         });
-        /*
-            $("#signup_email").keyup(function(event) {
-                event.preventDefault();
-                var email_input = $("#signup_email").val();
 
-                $.ajax({
-                    type: "post",
-                    url: "/php_backend_assignment/php/check_email_signup.php",
-                    data: {
-                        email: email_input
-                    },
-                    success: function(response) {
+        $("#signup_email").on('focusout',function (event) {
+            event.preventDefault();
+            var email_input = $("#signup_email").val();
 
-                        if (response == "false") {
-                            $("#signup_email_check_result").html("Email Already Exists");
-                        } else if (response == "true")
-                            $("#signup_email_check_result").empty();
-                    }
-                });
+            $.ajax({
+                type: "post",
+                url: "/signup_email_check",
+                data: {
+                    email: email_input
+                },
+                success: function (response) {
 
+                    if (response == "false") {
+                        $("#signup_email_check_result").html("Email Already Exists");
+                    } else if (response == "true")
+                        $("#signup_email_check_result").empty();
+                }
             });
-            $("#username").keyup(function(event) {
-                event.preventDefault();
-                var username_input = $("#username").val();
 
-                $.ajax({
-                    type: "post",
-                    url: "/php_backend_assignment/php/check_username_signup.php",
-                    data: {
-                        username: username_input
-                    },
-                    success: function(response) {
+        });
+        
+                    $("#username").on('focusout',function(event) {
+                        event.preventDefault();
+                        var username_input = $("#username").val();
 
-                        if (response == "false") {
-                            $("#username_check_result").html("Username Already Exists");
-                        } else if (response == "true")
-                            $("#username_check_result").empty();
-                    }
-                });
+                        $.ajax({
+                            type: "post",
+                            url: "/username_check",
+                            data: {
+                                username: username_input
+                            },
+                            success: function(response) {
 
-            });
-         */
+                                if (response == "false") {
+                                    $("#username_check_result").html("Username Already Exists");
+                                } else if (response == "true")
+                                    $("#username_check_result").empty();
+                            }
+                        });
+
+                    });
+             
     </script>
 </body>
 

@@ -1,6 +1,6 @@
 <?php
 namespace Controllers;
-
+use Models\QuestionListUser;
 session_start();
 class WelcomeController
 {
@@ -13,6 +13,10 @@ class WelcomeController
     }
     public function get()
     {
+        QuestionListUser::QuestionListUser(1);
+        
+        
+        
         echo $this->twig->render("welcome.html", $welcome = array('user_name' => $_SESSION["name"]));
 
     }
