@@ -11,11 +11,11 @@ class HomeController{
     }
 
     public function get() {
-        echo $this->twig->render("home.html");
-     /*   if($_SESSION[id])
+    //     echo $this->twig->render("home.html");
+       if(isset($_SESSION[id]) && !empty($_SESSION[id]))
             header("Location: /welcome");
         else {
             echo $this->twig->render("home.html");
-        }*/
+        }
     }
 }

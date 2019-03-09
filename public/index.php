@@ -8,6 +8,6 @@ Toro::serve(array(
     "/signup"=> "Controllers\\SignupController",
     "/signup_email_check"=> "Controllers\\SignupEmailCheckController",
     "/username_check"=>"Controllers\\UsernameCheckController",
-    "/logout"=>"Controller\\LogoutController"
+    "/logout"=>"Controllers\\LogoutController"
 ));
 ?>
