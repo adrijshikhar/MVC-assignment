@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,9 +8,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/welcome.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
 </head>
+
 <body>
     <h1>Welcome {{user_name}}</h1>
+    <div class="row p-3">
+        <div class="col col-9">
+
+            <h2>Questions</h2>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">S. No.</th>
+                        <th scope="col">Questions</th>
+                        <th scope="col">Answer</th>
+                        <th scope="col">Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for question in questionlistuser%}
+                    <tr>
+                        <td>{{question.sno}}</td>
+                        <td>{{question.question}}</td>
+                        <td>{%if question.attempted=="true"%}<button class='btn btn-primary mb-2' id='question_attempt_button'
+                                disabled>Attempted</button>{%else%}<a href='/' class='badge badge-primary'><button
+                                    class='btn btn-primary' id='question_attempt_button'>Attempt</button></a>{%endif%}</td>
+                        <td>{{question.points}}</td>
+                    </tr>
+
+                    {%endfor%}
+                </tbody>
+            </table>
+        </div>
+        <div class="col col-3">
+            <h2>Leader Board</h2>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                                <th scope="col">S. No.</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for u in leaderboard%}
+                            <tr>
+                                <td>{{u.sno}}</td>
+                                <td>{{u.name}}</td>
+                                <td>{{u.points}}</td>
+                            </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
+        </div>
+    </div>
 </body>
+
 </html>
