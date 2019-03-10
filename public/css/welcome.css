@@ -10,6 +10,7 @@ body {
     font-family: "Raleway", sans-serif;
     height: 100vh;
     background-color: #56baed;
+    overflow: hidden;
 }
 
 
@@ -37,15 +38,10 @@ body {
     background-color: #39ace7;
 }
 
-#logout,#b:active{
-    -moz-transform: scale(0.95);
-    -webkit-transform: scale(0.95);
-    -o-transform: scale(0.95);
-    -ms-transform: scale(0.95);
-    transform: scale(0.95);
-}
 
 #b[data="disabled"]{
-    background-color: rgb(148, 207, 236);
+    background-color: rgb(183, 231, 255);
     cursor: not-allowed;
+    -webkit-box-shadow: none;
+    box-shadow: none;
 }

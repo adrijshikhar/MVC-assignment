@@ -14,7 +14,7 @@ class QuestionListUser{
         if($check){
             while ($question=$sql->fetch(\PDO::FETCH_ASSOC)) {
                
-                $questionlistuser[$i]=array("sno"=>($i+1),"question"=>$question[question],"attempted"=>'',"points"=>$question[points]);
+                $questionlistuser[$i]=array("sno"=>($i+1),"qid"=>$question[id],"question"=>$question[question],"attempted"=>'',"points"=>$question[points]);
                 $sql2=$db->prepare("select * from answered_questions where uid=:uid and qid=:qid");
                 $sql2->execute(array("uid"=>$uid,"qid"=>$question[id]));
                 $q=$sql2->fetch(\PDO::FETCH_ASSOC);

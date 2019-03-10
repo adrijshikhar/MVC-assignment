@@ -17,7 +17,7 @@ class WelcomeController
         if(isset($_SESSION[id]) && !empty($_SESSION[id])) {
             $leaderboard=Leaderboard::leaderboard();
             $questionlistuser=QuestionListUser::QuestionListUser(1);
-            echo $this->twig->render("welcome.html", $welcome = array('user_name' => $_SESSION["name"],'questionlistuser'=>$questionlistuser,"leaderboard"=>$leaderboard));
+            echo $this->twig->render("welcome.html", array('user_name' => $_SESSION["name"],'questionlistuser'=>$questionlistuser,"leaderboard"=>$leaderboard));
        }
     else {
         header("Location: /");

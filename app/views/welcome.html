@@ -38,8 +38,8 @@
                     <tr>
                         <td>{{question.sno}}</td>
                         <td>{{question.question}}</td>
-                        <td>{%if question.attempted=="true"%}<button class='btn btn-primary mb-2' id='b'
-                                disabled data="disabled">Attempted</button>{%else%}<a href='/' ><button
+                        <td>{%if question.attempted=="true"%}<button id='b'
+                                disabled data="disabled">Attempted</button>{%else%}<a href='/attempt_question?id={{question.qid}}' ><button
                                     class='btn btn-primary' id='b'>Attempt</button></a>{%endif%}</td>
                         <td>{{question.points}}</td>
                     </tr>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Attempt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/qa.css">
+</head>
+
+<body>
+    <h1>Question</h1>
+    <h4>{{question}}</h4>
+    <ol>
+        {%for a in multipleAnswer%}
+        <li> <input type="checkbox" name="" id={{loop.index}}> {{a}}</li>
+        {%endfor%}
+    </ol>
+    <input type="button" value="Submit" onclick="submitQuestion">
+</body>
+
+</html>
