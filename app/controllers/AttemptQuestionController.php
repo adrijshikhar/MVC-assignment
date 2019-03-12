@@ -15,7 +15,7 @@ class AttemptQuestionController
     }
     public function get()
     {
-        if (!isset($_SESSION["id"])) {
+        if (!isset($_SESSION["id"]) && !empty($_GET["id"])) {
             header("Location: /");
         }
         $questionAndAnswer = AttemptQuestion::questionAndAnswer($_GET["id"]);

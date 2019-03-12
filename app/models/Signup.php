@@ -56,7 +56,7 @@ class Signup
             die();
         }
         $sql3 = $db->prepare("insert into points(uid,points) values(:uid,0)");
-        $check2=$sql3->execute(array("uid" => $u[id]));
+        $check2=$sql3->execute(array("uid" => $u["id"]));
 
         if ($check && $check2) {
             return true;

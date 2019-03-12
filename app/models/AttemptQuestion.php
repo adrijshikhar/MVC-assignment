@@ -103,7 +103,7 @@ class AttemptQuestion
             if ($check2) {
                 $i = 0;
                 while ($ma = $sql2->fetch(\PDO::FETCH_ASSOC)) {
-                    $multiple_answer[$i] = array('aid' => $ma[id], 'mans' => $ma['multiple_answers']);
+                    $multiple_answer[$i] = array('aid' => $ma["id"], 'mans' => $ma['multiple_answers']);
                     $i++;
 
                 }

@@ -11,5 +11,6 @@ Toro::serve(array(
     "/attempt_question"=>"Controllers\\AttemptQuestionController",
     "/result"=>"Controllers\\ResultController",
     "/logout"=>"Controllers\\LogoutController",
+    "/admin_portal"=>"Controllers\\AdminPortalController",
 ));
 ?>
