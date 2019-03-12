@@ -18,6 +18,7 @@ class SignupController
         $username = $_POST["username"];
         $p = $_POST["p"];
         $p2 = $_POST["p2"];
+        $p_hash = hash('sha256', $p);
         $gender = $_POST["gender"];
         $mobile = $_POST["mobile"];
         $enroll = $_POST["enroll"];
@@ -51,7 +52,7 @@ class SignupController
             $username_check_result = "Username Already Exists";
         }
         if ($p === $p2 && Signup::signupEmailCheck($email) && Signup::signupUsernameCheck($username) && strlen($p) >= 8) {
-            $user = array('name' => $name, 'email' => $email, 'username' => $username, 'password' => $p, 'gender' => $gender, 'mobile' => $mobile, 'enroll' => $enroll, 'branch' => $branch, 'year' => $year);
+            $user = array('name' => $name, 'email' => $email, 'username' => $username, 'password' => $p_hash, 'gender' => $gender, 'mobile' => $mobile, 'enroll' => $enroll, 'branch' => $branch, 'year' => $year);
             if (Signup::enterUserDetails($user)) {
                 $response['validate'] = "true";
             } else {

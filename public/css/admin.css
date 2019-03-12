@@ -2,33 +2,16 @@
 
 body {
     font-family: "Raleway", sans-serif !important;
-    
+    height: 100vh;
+  
 }
-
-.login,.signup{
-    width: 40%;
-    padding: 5px;
-}
-.main {
+.header {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
+
 }
 
 
-
-#formFooter {
-    background-color: #f6f6f6;
-    border-top: 1px solid #dce8f1;
-    padding: 25px;
-    text-align: center;
-    -webkit-border-radius: 0 0 10px 10px;
-    border-radius: 0 0 10px 10px;
-}
-
-
-
-
-/* FORM TYPOGRAPHY*/
 
 input[type=button],
 input[type=submit],
@@ -36,6 +19,7 @@ input[type=reset] {
     background-color: #56baed;
     border: none;
     color: white;
+    height: 50px;
     padding: 12px 22px;
     text-align: center;
     text-decoration: none;
@@ -94,10 +78,4 @@ input[type=text]:placeholder,
 input[type=password]:placeholder,
 input[type=email]:placeholder {
     color: #cccccc;
-}
-
-
-
-#login_modal_msg {
-    margin-bottom: 30px;
 }
