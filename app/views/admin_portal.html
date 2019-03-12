@@ -1,13 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+        <link rel="stylesheet" href="/css/admin.css">
     <title>Admin Portal</title>
 </head>
+
 <body>
-    <h1 class="display-4">Question List</h1>
-    {{question_list_admin}}
+        <div class="header p-3">
+                <div >
+                        <h1 class="display-4">Question List</h1>
+                </div>
+                <input type="button" id="back" value="Back"/>
+            </div>
+  
+
+    <div class="col">
+
+        <h2>Questions</h2>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">S. No.</th>
+                    <th scope="col">QID</th>
+                    <th scope="col">Questions</th>
+                    <th scope="col">Correct Answers</th>
+                    <th scope="col">Multiple Answers</th>
+                    <th scope="col">Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in questionlistadmin%}
+                <tr>
+                    <td>{{question.sno}}</td>
+                    <td>{{question.qid}}</td>
+                    <td>{{question.question}}</td>
+                    <td>
+                        <ol>{%for correct_answer in question.correct_answer%}
+                            <li>{{correct_answer}}</li>
+                            {%endfor%}</ol>
+                    </td>
+                    <td>
+                        <ol>{%for correct_answer in question.multiple_answer%}
+                            <li>{{correct_answer}}</li>
+                            {%endfor%}</ol>
+                    </td>
+                    <td>{{question.points}}</td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+    <div class="col">
+
+        <hr>
+        <h1>Add Question</h1>
+        <form>
+            <div class="form-group mb-2">
+                <div class="form-group row">
+                    <label for="question" class="col-sm-2 col-form-label">Enter Question</label>
+                    <div class="col-sm-10"> <textarea class="form-control" id="question" rows="3"></textarea></div>
+
+                </div>
+                <div class="form-group row">
+                    <label for="question" class="col-sm-2 col-form-label">Enter Answers</label>
+                    <div class="col-sm-10">
+                        <div class="form-group row"><label for="question" class="col-sm-1 col-form-label">1.</label>
+                            <input type="text" id="1" class="form-control col-sm-9"></div>
+                        <div class="form-group row"><label for="question" class="col-sm-1 col-form-label">2.</label>
+                            <input type="text" id="2" class="form-control col-sm-9"></div>
+                        <div class="form-group row"> <label for="question" class="col-sm-1 col-form-label">3.</label>
+                            <input type="text" id="3" class="form-control col-sm-9"></div>
+                        <div class="form-group row"><label for="question" class="col-sm-1 col-form-label">4.</label>
+                            <input type="text" id="4" class="form-control col-sm-9"></div>
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label for="question" class="col-sm-2 col-form-label">Select correct answer</label>
+                    <div class="col-sm-10">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="c1" value="1">
+                            <label class="form-check-label" for="c1">1</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="c2" value="2">
+                            <label class="form-check-label" for="c2">2</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="c3" value="3">
+                            <label class="form-check-label" for="c3">3</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="c4" value="4">
+                            <label class="form-check-label" for="c4">4</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="question" class="col-sm-2 col-form-label">Enter Points</label>
+                    <div class="col-sm-10"> <input type="text" id="points" class="form-control col-sm-1">
+                    </div>
+                </div>
+            </div>
+            <input type="button" id="question_add_button" value="Add"/>
+           
+        </form>
+
+    </div>
 </body>
+<script>
+    $('#question_add_button').on('click', function (e) {
+        e.preventDefault();
+        var question_input = $('#question').val();
+        var a1_input = $('#1').val();
+        var a2_input = $('#2').val();
+        var a3_input = $('#3').val();
+        var a4_input = $('#4').val();
+        var c = new Array(0, 0, 0, 0);
+        for (var i = 0; i < 4; i++) {
+            if ($('#c' + (i + 1)).is(":checked")) {
+                c[i] = i + 1;
+
+            }
+
+        }
+        var p_input = $('#points').val();
+        $.ajax({
+            type: "post",
+            url: "/question_add",
+            data: {
+                question: question_input,
+                a1: a1_input,
+                a2: a2_input,
+                a3: a3_input,
+                a4: a4_input,
+                c1: c[0],
+                c2: c[1],
+                c3: c[2],
+                c4: c[3],
+                p: p_input,
+            },
+            success: function (response) {
+
+                if (response == "added") {
+                    alert("Added");
+                    location.reload();
+                } else
+                    alert("Fill all fields");
+            }
+        });
+    });
+    $("#back").on('click',function(e){
+        e.preventDefault();
+        window.location.replace("/");
+    })
+</script>
+
 </html>

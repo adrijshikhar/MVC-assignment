@@ -138,7 +138,7 @@
                     },
                     success: function (r) {
                         response=JSON.parse(r);
-                        alert(response['validate']);
+                      
                         if (response['validate'] == "true") {
                             $("#password_length_check_result").empty();
                             $("#password_match_check_result").empty();

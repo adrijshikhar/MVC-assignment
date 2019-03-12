@@ -10,7 +10,7 @@ class Login
         $db = DatabaseConnect::getDB();
         $password_hash = hash('sha256', $password);
         $user = $db->prepare("select * from users where email=:email and password=:password");
-        $user->execute(array("email" => $email, "password" => $password));
+        $user->execute(array("email" => $email, "password" => $password_hash));
         
         $u = $user->fetch(\PDO::FETCH_ASSOC);
       
