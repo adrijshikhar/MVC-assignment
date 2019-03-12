@@ -6,25 +6,35 @@ use Models\DatabaseConnect;
 
 class AttemptQuestion
 {
-    public function insertUserPoints($uid, $points_gained)
+    public static function insertUserPoints($uid, $points_gained)
     {
         $db = DatabaseConnect::getDB();
         $sql4 = $db->prepare("select * from points where uid=:uid");
         $check4 = $sql4->execute(array("uid" => $uid));
+
         if ($check4) {
+
             if ($sql4->rowCount() > 0) {
+
                 $upoint = $sql4->fetch(\PDO::FETCH_ASSOC);
                 $sum_points = $upoint[points] + $points_gained;
                 $sql5 = $db->prepare("update points set points=:sum_points where uid=:uid");
                 $check5 = $sql5->execute(array("uid" => $uid, "sum_points" => $sum_points));
-                if ($check5) {
-                    return true;
-                } else {
-                    return false;
-                }
+
+            } else {
+                $upoint = $sql4->fetch(\PDO::FETCH_ASSOC);
+                $sum_points = $upoint[points] + $points_gained;
+                $sql5 = $db->prepare("insert into points(uid,points) values(:uid,:sum_points)");
+                $check5 = $sql5->execute(array("uid" => $uid, "sum_points" => $sum_points));
+
+            }
+            if ($check5) {
+                return true;
+            } else {
+                return false;
             }
         } else {
-            return "error4";
+            return "error5";
         }
     }
     public static function resultcheck($uid, $qid, $a)
@@ -40,13 +50,17 @@ class AttemptQuestion
             $number_correct_ans = $sql1->rowCount();
             $flag = 0;
             for ($i = 0; $i < 4; $i++) {
+
                 if ($a[$i] != 0) {
+                    $sql1 = $db->prepare("select * from correct_answer where question_no=:qid");
+                    $check1 = $sql1->execute(array("qid" => $qid));
                     $sql3 = $db->prepare("insert into answered_questions(uid,qid,aid) values(:uid,:qid,:aid)");
                     $check3 = $sql3->execute(array('uid' => $uid, 'qid' => $qid, 'aid' => $a[$i]));
                     if ($check3) {
                         while ($c = $sql1->fetch(\PDO::FETCH_ASSOC)) {
-                            if ($c[correct_ans] == $a[$i]);
-                            $flag++;
+                            if ($c[correct_ans] == $a[$i]) {
+                                $flag++;
+                            }
                         }
                     } else {
                         return "error3";
@@ -54,18 +68,23 @@ class AttemptQuestion
                 }
             }
             if ($flag == $number_correct_ans) {
-                $points_gained = $p[points];
+              
+                $check_point = AttemptQuestion::insertUserPoints($uid, $p[points]);
+                $result = "right";
 
             } else {
-                $points_gained = 0;
-
+                $check_point = AttemptQuestion::insertUserPoints($uid, 0);
+                $result = "wrong";
             }
-            if (insertUserPoints($uid, $points_gained)) {
-                return true;
+            if ($check_point) {
+                return $result;
+            } else if ($check_point == "error5") {
+                return "error6";
 
             } else {
-                return false;
+                return "error7";
             }
+
         } else {
             return "error12";
         }

@@ -1,6 +1,7 @@
 <?php
 
 namespace Controllers;
+session_start();
 use Models\AttemptQuestion;
 
 class AttemptQuestionController
@@ -14,8 +15,10 @@ class AttemptQuestionController
     }
     public function get()
     {
-        $questionAndAnswer=AttemptQuestion::questionAndAnswer($_GET["id"]);
-     
-        echo $this->twig->render("qa.html",array("qid"=>$questionAndAnswer[qid],"question"=>$questionAndAnswer['question'],"multipleAnswer"=>$questionAndAnswer[answer]));
+        if (!isset($_SESSION["id"])) {
+            header("Location: /");
+        }
+        $questionAndAnswer = AttemptQuestion::questionAndAnswer($_GET["id"]);
+        echo $this->twig->render("qa.html", array("qid" => $questionAndAnswer[qid], "question" => $questionAndAnswer['question'], "multipleAnswer" => $questionAndAnswer[answer]));
     }
 }
