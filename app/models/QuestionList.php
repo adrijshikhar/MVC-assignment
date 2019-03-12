@@ -4,7 +4,7 @@ namespace Models;
 
 use Models\DatabaseConnect;
 
-class QuestionListUser{
+class QuestionList{
     public static function QuestionListUser($uid)
     {
         $db=DatabaseConnect::getDB();

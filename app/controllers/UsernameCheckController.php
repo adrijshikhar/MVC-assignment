@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use Models\SignupChecks;
+use Models\Signup;
 
 class UsernameCheckController{
     public function get()
@@ -11,7 +11,7 @@ class UsernameCheckController{
     }
     public function post(){
         $username=$_POST["username"];
-        $check=SignupChecks::signupUsernameCheck($username);
+        $check=Signup::signupUsernameCheck($username);
        
         echo $check;
     }

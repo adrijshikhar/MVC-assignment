@@ -1,6 +1,6 @@
 <?php
 namespace Controllers;
-use Models\QuestionListUser;
+use Models\QuestionList;
 use Models\Leaderboard;
 session_start();
 class WelcomeController
@@ -16,7 +16,7 @@ class WelcomeController
     {
         if(isset($_SESSION[id]) && !empty($_SESSION[id])) {
             $leaderboard=Leaderboard::leaderboard();
-            $questionlistuser=QuestionListUser::QuestionListUser(1);
+            $questionlistuser=QuestionList::QuestionListUser($_SESSION["id"]);
             echo $this->twig->render("welcome.html", array('user_name' => $_SESSION["name"],'questionlistuser'=>$questionlistuser,"leaderboard"=>$leaderboard));
        }
     else {

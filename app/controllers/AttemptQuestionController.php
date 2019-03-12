@@ -16,6 +16,6 @@ class AttemptQuestionController
     {
         $questionAndAnswer=AttemptQuestion::questionAndAnswer($_GET["id"]);
      
-        echo $this->twig->render("qa.html",array("question"=>$questionAndAnswer['question'],"multipleAnswer"=>$questionAndAnswer[answer]));
+        echo $this->twig->render("qa.html",array("qid"=>$questionAndAnswer[qid],"question"=>$questionAndAnswer['question'],"multipleAnswer"=>$questionAndAnswer[answer]));
     }
 }

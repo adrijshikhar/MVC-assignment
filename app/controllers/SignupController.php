@@ -2,7 +2,7 @@
 namespace Controllers;
 
 use Models\Signup;
-use Models\SignupChecks;
+
 
 class SignupController
 {
@@ -39,18 +39,18 @@ class SignupController
             $password_match_check_result = "Passwords Do Not Match";
         
         }
-        if (SignupChecks::signupEmailCheck($email)) {
+        if (Signup::signupEmailCheck($email)) {
             $signup_email_check_result = "Email Can Be Used";
         } else {
             $signup_email_check_result = "Email already exists";
         }
 
-        if (SignupChecks::signupUsernameCheck($username)) {
+        if (Signup::signupUsernameCheck($username)) {
             $username_check_result = "Username Can Be Used";
         } else {
             $username_check_result = "Username Already Exists";
         }
-        if ($p === $p2 && SignupChecks::signupEmailCheck($email) && SignupChecks::signupUsernameCheck($username) && strlen($p) >= 8) {
+        if ($p === $p2 && Signup::signupEmailCheck($email) && Signup::signupUsernameCheck($username) && strlen($p) >= 8) {
             $user = array('name' => $name, 'email' => $email, 'username' => $username, 'password' => $p, 'gender' => $gender, 'mobile' => $mobile, 'enroll' => $enroll, 'branch' => $branch, 'year' => $year);
             if (Signup::enterUserDetails($user)) {
                 $response['validate'] = "true";

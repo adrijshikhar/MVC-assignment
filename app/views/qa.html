@@ -2,23 +2,57 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Attempt</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" media="screen" href="/css/qa.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/qa.css" />
 </head>
 
 <body>
     <h1>Question</h1>
-    <h4>{{question}}</h4>
-    <ol>
-        {%for a in multipleAnswer%}
-        <li> <input type="checkbox" name="" id={{loop.index}}> {{a}}</li>
-        {%endfor%}
-    </ol>
-    <input type="button" value="Submit" onclick="submitQuestion">
+    <h4>{{ question }}</h4>
+    <form>
+        <input name="qid" id="qid" hidden value="{{ qid }}" />
+        <ol>
+            {%for a in multipleAnswer%}
+            <li>
+                <input type="checkbox" name="" id="a{{ loop.index }}" value="{{ a.aid }}" />
+                {{ a.mans }}
+            </li>
+            {%endfor%}
+        </ol>
+        <input type="button" value="Submit" id="question_submit_answer" />
+    </form>
+    <div id="result"></div>
+    <script>
+        $("#question_submit_answer").on("click", function (e) {
+            e.preventDefault();
+            var a = [];
+            var hidden_qid_value=$("#qid").val();
+            for (let i = 0; i < 4; i++) {
+                var index = $("#a" + (i + 1));
+                if (index.prop("checked") == true) a[i] = index.val();
+                else a[i] = "0";
+            }
+            $.ajax({
+                type: "post",
+                url: "/result",
+                data: {
+                    qid:hidden_qid_value,
+                    a1: a[0],
+                    a2: a[1],
+                    a3: a[2],
+                    a4: a[3],
+                },
+
+                success: function (response) {
+                    alert(response);
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

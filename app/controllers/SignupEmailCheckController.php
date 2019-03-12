@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use Models\SignupChecks;
+use Models\Signup;
 
 class SignupEmailCheckCOntroller
 {
@@ -13,7 +13,7 @@ class SignupEmailCheckCOntroller
     public function post()
     {
         $email = $_POST["email"];
-        $check = SignupChecks::signupEmailCheck($email);
+        $check = Signup::signupEmailCheck($email);
   
         echo $check;
     }

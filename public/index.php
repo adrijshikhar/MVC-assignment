@@ -9,6 +9,7 @@ Toro::serve(array(
     "/signup_email_check"=> "Controllers\\SignupEmailCheckController",
     "/username_check"=>"Controllers\\UsernameCheckController",
     "/attempt_question"=>"Controllers\\AttemptQuestionController",
+    "/result"=>"Controllers\\ResultController",
     "/logout"=>"Controllers\\LogoutController",
 ));
 ?>
