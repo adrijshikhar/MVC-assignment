@@ -27,7 +27,7 @@
                 </li>
                 {%endfor%}
             </ol>
-            <input type="button"  value="Submit" id="question_submit_answer" />
+            <input type="button" value="Submit" id="question_submit_answer" />
         </form>
         <input type='button' value='Go Back' id='go_back' />
         <div id="result" class="display-4 mt-5"></div>
@@ -35,8 +35,7 @@
     <script>
         $("#question_submit_answer").on("click", function (e) {
             e.preventDefault();
-            $(this).prop("disabled",true);
-            $(this).addClass("disabled");
+
             var a = [];
             var hidden_qid_value = $("#qid").val();
             for (let i = 0; i < 4; i++) {
@@ -60,15 +59,21 @@
                     if (response == "right") {
                         $("#result").addClass("text-success");
                         $("#result").html("RIGHT ANSWER");
-
+                        $(this).prop("disabled", true);
+                        $(this).addClass("disabled");
+                    } else if (response == "error") {
+                        $("#result").addClass("text-danger");
+                        $("#result").html("OPTION NOT SELECTED");
                     } else {
                         $("#result").addClass("text-danger");
                         $("#result").html("WRONG ANSWER");
+                        $(this).prop("disabled", true);
+                        $(this).addClass("disabled");
                     }
                 }
             });
         });
-        $("#go_back").on('click',function(e){
+        $("#go_back").on('click', function (e) {
             e.preventDefault();
             location.replace("/");
         })
