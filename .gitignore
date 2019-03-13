@@ -1,3 +1,4 @@
 vendor
 mvc.adrij.co.conf
 composer.lock
+configs/credentials.php
