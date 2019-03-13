@@ -13,7 +13,7 @@ class ResultController
     }
     public function post()
     {
-        $a = array($_POST[a1], $_POST[a2], $_POST[a3], $_POST[a4]);
+        $a = array($_POST["a1"], $_POST["a2"], $_POST["a3"], $_POST["a4"]);
         $uid = $_SESSION["id"];
         $qid = $_POST["qid"];
 

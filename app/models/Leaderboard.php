@@ -14,7 +14,7 @@ class Leaderboard
         $i = 0;
         if ($check) {
             while ($u = $sql->fetch(\PDO::FETCH_ASSOC)) {
-                $response[$i] = array("sno"=>($i+1),"name" => $u[name], "points" => "$u[points]");
+                $response[$i] = array("sno"=>($i+1),"name" => $u["name"], "points" => "$u[points]");
                 $i++;
             }
         }

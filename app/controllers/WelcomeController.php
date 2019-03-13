@@ -13,7 +13,7 @@ class WelcomeController
     }
     public function get()
     {
-        if(isset($_SESSION[id]) && !empty($_SESSION[id])) {
+        if(isset($_SESSION["id"]) && !empty($_SESSION["id"])) {
             $leaderboard=Leaderboard::leaderboard();
             $questionlistuser=Question::QuestionListUser($_SESSION["id"]);
             echo $this->twig->render("welcome.html", array('user_name' => $_SESSION["name"],'questionlistuser'=>$questionlistuser,"leaderboard"=>$leaderboard,"admin_portal"=>$_SESSION["admin"]));

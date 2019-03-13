@@ -15,9 +15,9 @@ class AdminPortalController
     }
     public function get()
     {
-        if ($_SESSION["admin"] == 0) {
+        if ($_SESSION["admin"] === '0') {
             header("Location: /");
-        } else if ($_SESSION["admin"] == 1) {
+        } else if ($_SESSION["admin"] === '1') {
             $questionlistadmin = Question::QuestionListAdmin();
        
           echo $this->twig->render("admin_portal.html", array("questionlistadmin" => $questionlistadmin));
@@ -31,7 +31,15 @@ class AdminPortalController
         $a = array($_POST['a1'], $_POST['a2'], $_POST["a3"], $_POST["a4"]);
         $c = array($_POST["c1"], $_POST["c2"], $_POST["c3"], $_POST["c4"]);
         $p = $_POST["p"];
-        $questionaddadmin=Question::QuestionAdd($q,$a,$c,$p);
-        var_dump($questionaddadmin);
+        
+        if (isset($_POST["question"]) && isset($_POST["a1"]) && isset($_POST["a2"]) && isset($_POST["a3"]) && isset($_POST["a4"]) && isset($_POST["c1"]) && isset($_POST["c2"]) && isset($_POST["c3"]) && isset($_POST["c4"]) && isset($_POST["p"])) {
+            $questionaddadmin=Question::QuestionAdd($q,$a,$c,$p);
+            echo $questionaddadmin;
+        }
+        else{
+            echo "error in fields input";
+        }
+   
+    
     }
 }

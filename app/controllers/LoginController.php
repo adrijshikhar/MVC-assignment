@@ -23,10 +23,10 @@ class LoginController
         if ($user["validate"]=="true") {
             $u=$user["userDetails"];
             $_SESSION["id"] = $u["id"];
-            $_SESSION[name] = $u[name];
-            $_SESSION[email] = $u[email];
-            $_SESSION[username] = $u[username];
-            $_SESSION[admin] = $u[admin];
+            $_SESSION["name"] = $u["name"];
+            $_SESSION["email"] = $u["email"];
+            $_SESSION["username"] = $u["username"];
+            $_SESSION["admin"] = $u["admin"];
             $response="true";
         }
         else {

@@ -17,13 +17,13 @@ class AttemptQuestion
             if ($sql4->rowCount() > 0) {
 
                 $upoint = $sql4->fetch(\PDO::FETCH_ASSOC);
-                $sum_points = $upoint[points] + $points_gained;
+                $sum_points = $upoint["points"] + $points_gained;
                 $sql5 = $db->prepare("update points set points=:sum_points where uid=:uid");
                 $check5 = $sql5->execute(array("uid" => $uid, "sum_points" => $sum_points));
 
             } else {
                 $upoint = $sql4->fetch(\PDO::FETCH_ASSOC);
-                $sum_points = $upoint[points] + $points_gained;
+                $sum_points = $upoint["points"] + $points_gained;
                 $sql5 = $db->prepare("insert into points(uid,points) values(:uid,:sum_points)");
                 $check5 = $sql5->execute(array("uid" => $uid, "sum_points" => $sum_points));
 
@@ -58,7 +58,7 @@ class AttemptQuestion
                     $check3 = $sql3->execute(array('uid' => $uid, 'qid' => $qid, 'aid' => $a[$i]));
                     if ($check3) {
                         while ($c = $sql1->fetch(\PDO::FETCH_ASSOC)) {
-                            if ($c[correct_ans] == $a[$i]) {
+                            if ($c["correct_ans"] === $a[$i]) {
                                 $flag++;
                             }
                         }
@@ -67,9 +67,9 @@ class AttemptQuestion
                     }
                 }
             }
-            if ($flag == $number_correct_ans) {
+            if ($flag === $number_correct_ans) {
               
-                $check_point = AttemptQuestion::insertUserPoints($uid, $p[points]);
+                $check_point = AttemptQuestion::insertUserPoints($uid, $p["points"]);
                 $result = "right";
 
             } else {
@@ -78,7 +78,7 @@ class AttemptQuestion
             }
             if ($check_point) {
                 return $result;
-            } else if ($check_point == "error5") {
+            } else if ($check_point === "error5") {
                 return "error6";
 
             } else {
@@ -97,7 +97,7 @@ class AttemptQuestion
         $check = $sql->execute(array("qid" => $qid));
         if ($check) {
             $q = $sql->fetch(\PDO::FETCH_ASSOC);
-            $question = array('qid' => $qid, 'question' => $q[question], 'answers' => '');
+            $question = array('qid' => $qid, 'question' => $q["question"], 'answers' => '');
             $sql2 = $db->prepare("select * from multiple_answer where question_no=:qid");
             $check2 = $sql2->execute(array("qid" => $qid));
             if ($check2) {
