@@ -1,7 +1,7 @@
 <?php
 namespace Controllers;
 session_start();
-use Models\Login;
+use Models\Users;
 class LoginController
 {
 
@@ -18,7 +18,7 @@ class LoginController
     public function post() {
         $email=$_POST["email"];
         $password=$_POST["password"];
-        $user=Login::ValidateUser($email,$password);
+        $user=Users::ValidateUser($email,$password);
         
         if ($user["validate"]=="true") {
             $u=$user["userDetails"];

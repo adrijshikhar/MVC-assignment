@@ -10,6 +10,7 @@ Toro::serve(array(
     "/username_check"=>"Controllers\\UsernameCheckController",
     "/attempt_question"=>"Controllers\\AttemptQuestionController",
     "/result"=>"Controllers\\ResultController",
+    "/attempt_check"=>"Controllers\\AttemptCheckController",
     "/logout"=>"Controllers\\LogoutController",
     "/admin_portal"=>"Controllers\\AdminPortalController",
     "/question_add"=>"Controllers\\AdminPortalController",

@@ -6,6 +6,23 @@ use Models\DatabaseConnect;
 
 class AttemptQuestion
 {
+    public static function attemptCheck($uid,$qid) {
+        $db = DatabaseConnect::getDB();
+        $sql=$db->prepare("select id from answered_questions where uid=:uid and qid=:qid");
+        
+        $check=$sql->execute(array("uid"=>$uid,"qid"=>$qid));
+        if ($check) {
+            if ($sql->rowCount()==0) {
+                return "true";
+            }
+            else {
+                return "false";
+            }
+        }
+        else {
+            return "error";
+        }
+    }
     public static function insertUserPoints($uid, $points_gained)
     {
         $db = DatabaseConnect::getDB();
@@ -37,6 +54,22 @@ class AttemptQuestion
             return "error5";
         }
     }
+    public static function correctAnswers($qid)
+    {
+        $db = DatabaseConnect::getDB();
+        $sql1 = $db->prepare("select * from correct_answer where question_no=:qid");
+        $check1 = $sql1->execute(array("qid" => $qid));
+        $i = 0;
+        if ($check1) {
+            while ($c = $sql1->fetch(\PDO::FETCH_ASSOC)) {
+                $correct_answers[$i] = $c["correct_ans"];
+                $i++;
+            }
+            return $correct_answers;
+        } else {
+            return "error1";
+        }
+    }
     public static function resultcheck($uid, $qid, $a)
     {
         $db = DatabaseConnect::getDB();
@@ -44,6 +77,8 @@ class AttemptQuestion
         $check1 = $sql1->execute(array("qid" => $qid));
         $sql2 = $db->prepare("select points from questions where id=:qid");
         $check2 = $sql2->execute(array("qid" => $qid));
+        $submitted_answer = 0;
+        $correct_answers = AttemptQuestion::correctAnswers($qid);
 
         if ($check1 && $check2) {
             $p = $sql2->fetch(\PDO::FETCH_ASSOC);
@@ -52,6 +87,7 @@ class AttemptQuestion
             for ($i = 0; $i < 4; $i++) {
 
                 if ($a[$i] != 0) {
+                    $submitted_answer++;
                     $sql1 = $db->prepare("select * from correct_answer where question_no=:qid");
                     $check1 = $sql1->execute(array("qid" => $qid));
                     $sql3 = $db->prepare("insert into answered_questions(uid,qid,aid) values(:uid,:qid,:aid)");
@@ -67,14 +103,13 @@ class AttemptQuestion
                     }
                 }
             }
-            if ($flag === $number_correct_ans) {
-              
-                $check_point = AttemptQuestion::insertUserPoints($uid, $p["points"]);
-                $result = "right";
+            if ($flag === $number_correct_ans && $submitted_answer === $flag) {
 
+                $check_point = AttemptQuestion::insertUserPoints($uid, $p["points"]);
+                $result = array('result' => "right");
             } else {
                 $check_point = AttemptQuestion::insertUserPoints($uid, 0);
-                $result = "wrong";
+                $result = array('result' => "wrong", 'correct_answers' => $correct_answers);
             }
             if ($check_point) {
                 return $result;

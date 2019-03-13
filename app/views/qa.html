@@ -33,6 +33,22 @@
         <div id="result" class="display-4 mt-5"></div>
     </main>
     <script>
+        window.onload = function () {
+            var hidden_qid_value = $("#qid").val();
+            $.ajax({
+                type: "post",
+                url: "/attempt_check",
+                data: {
+                    qid: hidden_qid_value,
+                },
+                success: function (r) {
+                    if (r=="false") {
+                        $("#question_submit_answer").prop("disabled", true);
+                        $("#question_submit_answer").addClass("disabled");
+                    }
+                }
+            });
+        }
         $("#question_submit_answer").on("click", function (e) {
             e.preventDefault();
 
@@ -54,21 +70,34 @@
                     a4: a[3],
                 },
 
-                success: function (response) {
+                success: function (r) {
+                    response = JSON.parse(r);
 
-                    if (response == "right") {
+                    if (response["result"] == "right") {
                         $("#result").addClass("text-success");
+                        $("#result").removeClass("text-danger");
                         $("#result").html("RIGHT ANSWER");
-                        $(this).prop("disabled", true);
-                        $(this).addClass("disabled");
-                    } else if (response == "error") {
+                        $("#question_submit_answer").prop("disabled", true);
+                        $("#question_submit_answer").addClass("disabled");
+                    } else if (response['result'] == "error") {
                         $("#result").addClass("text-danger");
                         $("#result").html("OPTION NOT SELECTED");
                     } else {
                         $("#result").addClass("text-danger");
+                        $("#result").removeClass("text-success");
                         $("#result").html("WRONG ANSWER");
-                        $(this).prop("disabled", true);
-                        $(this).addClass("disabled");
+                        $("#question_submit_answer").prop("disabled", true);
+                        $("#question_submit_answer").addClass("disabled");
+                        for (let i = 0; i < 4; i++) {
+                            var index = $("#a" + (i + 1));
+                            for (let j = 0; j < 2; j++) {
+                                if (index.val() == response['correct_answers'][j]) {
+                                    index.parent().css("background-color", "#28a8464d");
+                                }
+                            }
+
+                        }
+
                     }
                 }
             });
