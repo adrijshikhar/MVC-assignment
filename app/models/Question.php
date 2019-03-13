@@ -9,6 +9,7 @@ class Question
     public static function QuestionAdd($q, $a, $c, $p)
     {
         $db = DatabaseConnect::getDB();
+        $add=[];
         $sql1 = $db->prepare("insert into questions(question,points) values(:question,:points)");
         $check1 = $sql1->execute(array("question" => $q, "points" => $p));
         if ($check1) {
@@ -27,12 +28,12 @@ class Question
                             if ($c[$i]!=0) {
                                 $sql5=$db->prepare("insert into correct_answer(question_no,correct_ans) values(:qid,:aid)");
                                 $check5=$sql5->execute(array("qid"=>$qid["id"],"aid"=>$maid['id']));
-                                $sql5->debugDumpParams();
+                                
                                 if ($check5) {
-                                    return "added";
+                                     $add[$i]="added";
                                 }
                                 else {
-                                    return "error5";
+                                    $add[$i]="error5";
                                 }
                             }
                         } else {
@@ -48,6 +49,12 @@ class Question
             }
         } else {
             echo "error1";
+        }
+        if ($add[0]=="added" && $add[1]=="added" && $add[2]=="added" && $add[3]=="added") {
+            return "added";
+        }
+        else {
+            return "error";
         }
     }
     public static function QuestionListUser($uid)
